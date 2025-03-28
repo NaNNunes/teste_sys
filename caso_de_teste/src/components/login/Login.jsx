@@ -27,6 +27,7 @@ const Login = () => {
             <button type="submit" className="btn btn-primary">
               Entrar
             </button>
+            <button a="">Cadastrar</button>
           </form>
         </div>
       </div>
