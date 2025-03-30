@@ -40,6 +40,7 @@ const Cadastro = () => {
 
   // checking email, using logical, not js string methods
   const emailCheck = (email = "") => {
+    let user = "";
     let domain = "";
     let mailLen = email.length;
     let atIndex = 0
@@ -57,9 +58,14 @@ const Cadastro = () => {
 
       // hunting at || .indexOf("@")
       while(email[i] != "@"){
+        user += email[i];
         if(i++ > mailLen){
           return false;
         }
+      }
+
+      if(!(user.length >= 1)){
+        return false;
       }
 
     // checking domain
@@ -81,6 +87,10 @@ const Cadastro = () => {
         }
       }
 
+      if(domain.length < 3){
+        return false;
+      }
+
       i = 0;
       while(domain[i] != "."){
         if(i++ > domain.length){
@@ -89,6 +99,21 @@ const Cadastro = () => {
       }
 
       return true;
+
+      // let user = email.substring(0, email.indexOf("@"));
+      // let domain = email.substring(email.indexOf("@")+1, email.length);
+  
+      // if((user.length >= 1) && (domain.length > 2) && 
+      //   (user.search("@") == -1) && (domain.search("@") == -1) &&
+      //   (user.search(" ") == -1) && (domain.search(" " == -1)) &&
+      //   (domain.search(".") != -1) && 
+      //   (domain.indexOf(".") >= 1) && (domain.lastIndexOf(".") < domain.length -1))
+      // {
+      //   return true;
+      // }
+      // else {
+      //   return false;
+      // }
   }
   
   // senha e confirmar senha
