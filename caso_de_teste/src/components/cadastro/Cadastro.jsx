@@ -1,32 +1,107 @@
 import React from 'react'
+import { useState } from 'react'
 
 import style from './Cadastro.module.css'
 
 const Cadastro = () => {
   const cad = () => {
-    let name = document.querySelector("input#username").value;
-    let email = document.querySelector("input#usermail").value;
-    let pass = document.querySelector("input#userpass").value;
-    let confirmPass = document.querySelector("input#confirmpass").value;
-  
-    alert(email.checkValidty());
-  }
+    let nameField = document.querySelector("input#username");
+    let emailField = document.querySelector("input#usermail");
+    let passField = document.querySelector("input#userpass");
+    let confirmPassField = document.querySelector("input#confirmpass");
 
-  const emailCheck = (email) => { // checking email, not finished
-    for (let i = 0; i < email.length; i++){
-      if(email[i] == "@"){
-        return true;
+    // cleaning
+    nameField.value = "";
+    emailField.value = "";
+    passField.value = "";
+    confirmPassField.value = "";
+
+    const user = {
+      nome: nameField.value,
+      email: emailField.value,
+      senha: passField.value,
+      confirmar: confirmPassField.value
+    }
+
+    for (const key in user) {
+      if(isVoidField(user[key])){
+        return alert(`Certifique-se de que todos os campos estão preenchidos`)
       }
     }
-    return false;
+
+    return (emailCheck(user.email)) 
+        ? (weakPass(user.pass)) 
+          ? (confrmPass(user.confPass, user.pass)) 
+            ? alert("Cadastro realizado com sucesso!")
+            : alert("Senhas não coincidem")
+          : alert("Senha Fraca, use uma senha com no mínimo 8 caracteres")
+        : alert("E-mail inválido")
   }
+
+  // checking email, using logical, not js string methods
+  const emailCheck = (email = "") => {
+    let domain = "";
+    let mailLen = email.length;
+    let atIndex = 0
+    let i = 0;
+
+    // checking all mail
+      // hunting void spaces
+      for (i = 0; i < mailLen; i++){
+        if(email[i] == " "){
+          return false;
+        }
+      }
+
+      i = 0; // recicling
+
+      // hunting at || .indexOf("@")
+      while(email[i] != "@"){
+        if(i++ > mailLen){
+          return false;
+        }
+      }
+
+    // checking domain
+      atIndex = i;  // backup
+      i = 0;        // restarting
+      for(i = atIndex+1; i < mailLen; i++){
+        if
+          ( // verificação incompleta de caracteres invalidos
+            ((i == atIndex+1) && (email[i] == ".") || (email[i] == ";") || (email[i] == ",")) 
+            || 
+            ((i == mailLen-1) && (email[i] == ".") || (email[i] == ";") || (email[i] == ","))
+          )
+        { 
+          return false; 
+        } 
+        else 
+        { 
+          domain += email[i]; 
+        }
+      }
+
+      i = 0;
+      while(domain[i] != "."){
+        if(i++ > domain.length){
+          return false;
+        }
+      }
+
+      return true;
+  }
+  
   // senha e confirmar senha
   const confrmPass = (confirmPass, pass) => {
     return (pass == confirmPass);
   }
   // senha fraca
-  const weakPass = (pass) => {
-    return (pass.length < 8);
+  const weakPass = (pass = "") => {
+    return (pass.length >= 8);
+  }
+
+  const isVoidField = (fieldValue) =>{
+    return fieldValue == "";
   }
   
   return (
