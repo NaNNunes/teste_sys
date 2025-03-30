@@ -5,27 +5,27 @@ const users = [
   {
     id:0,
     nome: "user1",
-    email: "user@gmail.com",
+    mail: "user@gmail.com",
     senha: "12345678"
   },
   {
     id:1,
     nome: "user2",
-    email: "usermail@gmail.com",
+    mail: "usermail@gmail.com",
     senha: "87654321"
   },
   {
     id:2,
     nome: "user3",
-    email: "user@hotmail.com",
+    mail: "user@hotmail.com",
     senha: "333777666"
   },
   {
     id:3,
     nome: "user4",
-    email: "user.user@gmail.com",
+    mail: "user.user@gmail.com",
     senha: "40028922_"
-  },
+  }
 
 ]
 
@@ -34,20 +34,67 @@ const Login = () => {
     let usermailField = document.querySelector("input#usermail");
     let passField = document.querySelector("input#userpass");
 
+    let userFound = {};
+
     const inputs = {
-      mail: usermailField.value,
+      email: usermailField.value,
       pass: passField.value
     }
 
-    searchMail(inputs.mail, users);
+    for (const input in inputs) {
+      if(voidField(inputs[input])){
+        alert("Preencha todos os campos")
+        return false;
+      }
+    }
+
+    if(emailCheck(inputs.email)){
+      userFound = searchMail(inputs.email, users);
+    }
+    else{
+      return alert("email inválido");
+    }
+    
+    return (userFound != false)
+      ? (searchPass(inputs.pass, userFound))
+        ? alert("Bem-vindo")
+        : alert("senha inválida")
+      : alert("user não encontrado")
+
   }
 
-  const searchMail = (email = "", users = []) => {
-    // god
+  let emailCheck = (email = "") => {
+    let user = email.substring(0, email.indexOf("@"));
+    let domain = email.substring(email.indexOf("@")+1, email.length);
+
+    if((user.length >= 1) && (domain.length > 2) && 
+      (user.search("@") == -1) && (domain.search("@") == -1) &&
+      (user.search(" ") == -1) && (domain.search(" " == -1)) &&
+      (domain.search(".") != -1) && 
+      (domain.indexOf(".") >= 1) && (domain.lastIndexOf(".") < domain.length -1))
+    {
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 
-  const searchPass = (pass = "", users = []) => {
-    // god 2
+  let searchMail = (emailField = "", users = []) => {
+    for(let i = 0; i < users.length; i++){
+      if(emailField == users[i].mail){
+        return users[i];
+      }
+    }
+    return false;
+  }
+
+  let searchPass = (pass = "", user = {}) => {
+    return (pass == user.senha)
+  }
+
+  let voidField = (field) => {
+    return (field == "");
   }
 
   return (
