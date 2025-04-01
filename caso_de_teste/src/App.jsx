@@ -1,13 +1,11 @@
 import './App.css'
 
-import Cadastro from './components/cadastro/Cadastro'
-import Login from './components/login/Login'
-
+import { Outlet } from 'react-router-dom';
 function App() {
 
   return (
     <>
-      <Login />
+      <Outlet />
     </>
   )
 }

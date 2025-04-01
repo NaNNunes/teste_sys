@@ -1,6 +1,8 @@
 import React from "react";
 import style from './login.module.css'
 
+import { useNavigate } from "react-router-dom";
+
 const users = [
   {
     id:0,
@@ -26,10 +28,15 @@ const users = [
     mail: "user.user@gmail.com",
     senha: "40028922_"
   }
-
 ]
 
 const Login = () => {
+  const navigate = useNavigate();
+  const toCadastro = () => {
+    navigate("/cadastro");
+  }
+
+
   const log = () =>{
     let usermailField = document.querySelector("input#usermail");
     let passField = document.querySelector("input#userpass");
@@ -57,7 +64,7 @@ const Login = () => {
     
     return (userFound != false)
       ? (searchPass(inputs.pass, userFound))
-        ? alert("Bem-vindo")
+        ? toCadastro()
         : alert("senha inválida")
       : alert("user não encontrado")
 
