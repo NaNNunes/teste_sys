@@ -41,7 +41,8 @@ const Cadastro = () => {
   // checking email, using logical, not js string methods
   const emailCheck = (email = "") => {
     let user = "";
-    let domain = "";
+    let 
+    domain = "";
     let mailLen = email.length;
     let atIndex = 0
     let i = 0;
