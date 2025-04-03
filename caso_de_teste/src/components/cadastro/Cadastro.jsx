@@ -1,134 +1,143 @@
-import React from 'react'
-import { useState } from 'react'
+
+import { useForm } from 'react-hook-form';
 
 import style from './Cadastro.module.css'
 
 const Cadastro = () => {
-  const cad = () => {
-    let nameField = document.querySelector("input#username");
-    let emailField = document.querySelector("input#usermail");
-    let passField = document.querySelector("input#userpass");
-    let confirmPassField = document.querySelector("input#confirmpass");
+  const {
+    register,
+    hundleSubmit,
+    formState: {errors}
+  } = useForm();
 
-    // cleaning
-    nameField.value = "";
-    emailField.value = "";
-    passField.value = "";
-    confirmPassField.value = "";
+  const onSubmit = (data) => console.log("Dados:", data);
+  const onError = (errors) => console.log("Erros:", errors);
 
-    const user = {
-      nome: nameField.value,
-      email: emailField.value,
-      senha: passField.value,
-      confirmar: confirmPassField.value
-    }
+  // const cad = () => {
+  //   let nameField = document.querySelector("input#username");
+  //   let emailField = document.querySelector("input#usermail");
+  //   let passField = document.querySelector("input#userpass");
+  //   let confirmPassField = document.querySelector("input#confirmpass");
 
-    for (const key in user) {
-      if(isVoidField(user[key])){
-        return alert(`Certifique-se de que todos os campos estão preenchidos`)
-      }
-    }
+  //   // cleaning
+  //   nameField.value = "";
+  //   emailField.value = "";
+  //   passField.value = "";
+  //   confirmPassField.value = "";
 
-    return (emailCheck(user.email)) 
-        ? (weakPass(user.pass)) 
-          ? (confrmPass(user.confPass, user.pass)) 
-            ? alert("Cadastro realizado com sucesso!")
-            : alert("Senhas não coincidem")
-          : alert("Senha Fraca, use uma senha com no mínimo 8 caracteres")
-        : alert("E-mail inválido")
-  }
+  //   const user = {
+  //     nome: nameField.value,
+  //     email: emailField.value,
+  //     senha: passField.value,
+  //     confirmar: confirmPassField.value
+  //   }
 
-  // checking email, using logical, not js string methods
-  const emailCheck = (email = "") => {
-    let user = "";
-    let 
-    domain = "";
-    let mailLen = email.length;
-    let atIndex = 0
-    let i = 0;
+  //   for (const key in user) {
+  //     if(isVoidField(user[key])){
+  //       return alert(`Certifique-se de que todos os campos estão preenchidos`)
+  //     }
+  //   }
 
-    // checking all mail
-      // hunting void spaces
-      for (i = 0; i < mailLen; i++){
-        if(email[i] == " "){
-          return false;
-        }
-      }
+  //   return (emailCheck(user.email)) 
+  //       ? (weakPass(user.pass)) 
+  //         ? (confrmPass(user.confPass, user.pass)) 
+  //           ? alert("Cadastro realizado com sucesso!")
+  //           : alert("Senhas não coincidem")
+  //         : alert("Senha Fraca, use uma senha com no mínimo 8 caracteres")
+  //       : alert("E-mail inválido")
+  // }
 
-      i = 0; // recicling
+  // // checking email, using logical, not js string methods
+  // const emailCheck = (email = "") => {
+  //   let user = "";
+  //   let 
+  //   domain = "";
+  //   let mailLen = email.length;
+  //   let atIndex = 0
+  //   let i = 0;
 
-      // hunting at || .indexOf("@")
-      while(email[i] != "@"){
-        user += email[i];
-        if(i++ > mailLen){
-          return false;
-        }
-      }
+  //   // checking all mail
+  //     // hunting void spaces
+  //     for (i = 0; i < mailLen; i++){
+  //       if(email[i] == " "){
+  //         return false;
+  //       }
+  //     }
 
-      if(!(user.length >= 1)){
-        return false;
-      }
+  //     i = 0; // recicling
 
-    // checking domain
-      atIndex = i;  // backup
-      i = 0;        // restarting
-      for(i = atIndex+1; i < mailLen; i++){
-        if
-          ( // verificação incompleta de caracteres invalidos
-            ((i == atIndex+1) && (email[i] == ".") || (email[i] == ";") || (email[i] == ",")) 
-            || 
-            ((i == mailLen-1) && (email[i] == ".") || (email[i] == ";") || (email[i] == ","))
-          )
-        { 
-          return false; 
-        } 
-        else 
-        { 
-          domain += email[i]; 
-        }
-      }
+  //     // hunting at || .indexOf("@")
+  //     while(email[i] != "@"){
+  //       user += email[i];
+  //       if(i++ > mailLen){
+  //         return false;
+  //       }
+  //     }
 
-      if(domain.length < 3){
-        return false;
-      }
+  //     if(!(user.length >= 1)){
+  //       return false;
+  //     }
 
-      i = 0;
-      while(domain[i] != "."){
-        if(i++ > domain.length){
-          return false;
-        }
-      }
+  //   // checking domain
+  //     atIndex = i;  // backup
+  //     i = 0;        // restarting
+  //     for(i = atIndex+1; i < mailLen; i++){
+  //       if
+  //         ( // verificação incompleta de caracteres invalidos
+  //           ((i == atIndex+1) && (email[i] == ".") || (email[i] == ";") || (email[i] == ",")) 
+  //           || 
+  //           ((i == mailLen-1) && (email[i] == ".") || (email[i] == ";") || (email[i] == ","))
+  //         )
+  //       { 
+  //         return false; 
+  //       } 
+  //       else 
+  //       { 
+  //         domain += email[i]; 
+  //       }
+  //     }
 
-      return true;
+  //     if(domain.length < 3){
+  //       return false;
+  //     }
 
-      // let user = email.substring(0, email.indexOf("@"));
-      // let domain = email.substring(email.indexOf("@")+1, email.length);
+  //     i = 0;
+  //     while(domain[i] != "."){
+  //       if(i++ > domain.length){
+  //         return false;
+  //       }
+  //     }
+
+  //     return true;
+
+  //     // let user = email.substring(0, email.indexOf("@"));
+  //     // let domain = email.substring(email.indexOf("@")+1, email.length);
   
-      // if((user.length >= 1) && (domain.length > 2) && 
-      //   (user.search("@") == -1) && (domain.search("@") == -1) &&
-      //   (user.search(" ") == -1) && (domain.search(" " == -1)) &&
-      //   (domain.search(".") != -1) && 
-      //   (domain.indexOf(".") >= 1) && (domain.lastIndexOf(".") < domain.length -1))
-      // {
-      //   return true;
-      // }
-      // else {
-      //   return false;
-      // }
-  }
+  //     // if((user.length >= 1) && (domain.length > 2) && 
+  //     //   (user.search("@") == -1) && (domain.search("@") == -1) &&
+  //     //   (user.search(" ") == -1) && (domain.search(" " == -1)) &&
+  //     //   (domain.search(".") != -1) && 
+  //     //   (domain.indexOf(".") >= 1) && (domain.lastIndexOf(".") < domain.length -1))
+  //     // {
+  //     //   return true;
+  //     // }
+  //     // else {
+  //     //   return false;
+  //     // }
+  // }
   
-  // senha e confirmar senha
-  const confrmPass = (confirmPass, pass) => {
-    return (pass == confirmPass);
-  }
-  // senha fraca
-  const weakPass = (pass = "") => {
-    return (pass.length >= 8);
-  }
+  // // senha e confirmar senha
+  // const confrmPass = (confirmPass, pass) => {
+  //   return (pass == confirmPass);
+  // }
+  // // senha fraca
+  // const weakPass = (pass = "") => {
+  //   return (pass.length >= 8);
+  // }
 
-  const isVoidField = (fieldValue) =>{
-    return fieldValue == "";
-  }
+  // const isVoidField = (fieldValue) =>{
+  //   return fieldValue == "";
+  // }
   
   return (
     <div className={style.content}>
@@ -136,7 +145,26 @@ const Cadastro = () => {
 
       <div className={style.name}>
         <label htmlFor="">Nome: </label>
-          <input type="text" id='username' />
+          <input type="text" id='username' 
+            {
+              ...register("nome",{
+                required : "O nome é obrigatório",
+                minLength:{
+                  value: 3,
+                  message: "Necessário 3 caractéres no mínimo"
+                },
+                maxLength: {
+                  value: 20,
+                  message : "O nome deve ter ao menos 20 caracteres"
+                },
+                pattern:{
+                  value : /^[A-Za-zç]+$/i,
+                  message: "Apenas letras"
+                }
+              })
+            }
+ 
+          />
       </div>
 
       <div className={style.email}>
