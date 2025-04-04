@@ -29,7 +29,6 @@ const Cadastro = () => {
 
     for (const key in user) {
       if(isVoidField(user[key])){
-        alert(user[key])
         return alert(`Certifique-se de que todos os campos estão preenchidos`)
       }
     }
@@ -43,7 +42,7 @@ const Cadastro = () => {
     return (emailCheck(user.email)) 
         ? (weakPass(user.senha)) 
           ? (confrmPass(user.confirmar, user.senha)) 
-            ? alert("Cadastro realizado com sucesso!") && cleaner()
+            ? alert("Cadastro realizado com sucesso!")
             : alert("Senhas não coincidem")
           : alert("Senha Fraca, use uma senha com no mínimo 8 caracteres")
         : alert("E-mail inválido")
