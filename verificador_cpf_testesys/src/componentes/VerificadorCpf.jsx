@@ -6,18 +6,33 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Alert from "react-bootstrap/Alert";
 
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { useState } from 'react';
+
+import { verificadorCpf } from './verificador_cpf';
 
 const VerificadorCpf = () => {
 
-  const {register, handleSubmit, formState: {errors}} = useForm();
-
-  const onSubmit = (data) => console.log(data);
-  const onError = (errors) => console.log(errors)
-
   const [alertClass, setAlertClass] = useState("d-none mb-5");
   const [alertMsg, setAlertMsg] = useState("");
+
+  const {register, handleSubmit, formState: {errors}} = useForm();
+
+  const onSubmit = (data) => {
+    console.log(data);
+    setAlertClass("p-3")
+    if(verificadorCpf(data.cpf)){
+      setAlertMsg("CPF válido");
+    }
+    else{
+      setAlertMsg('CPF não válido')
+    }
+  }
+  const onError = (errors) =>{
+    console.log(errors);
+    setAlertClass("p-3")
+    setAlertMsg("Ops algo deu errado.");   
+  }
 
   return (
     <Container className='shadow rounded-3 p-2'>
@@ -27,7 +42,7 @@ const VerificadorCpf = () => {
                 <h3>Verificador de CPF</h3>
               </Col>
             </Row>
-            <Row>
+            <Row className='mb-3'>
               <Col>
                 <FloatingLabel
                   className='mb-3'
@@ -51,12 +66,17 @@ const VerificadorCpf = () => {
                       })
                     }
                   />
-                  {errors.cpf && <p className="error">{errors.cpf.message}</p>}
+                  {
+                    errors.cpf && 
+                      <p className="error" 
+                        style={{position: "absolute", marginTop:"1%", width: "100%", top:"100%", left:"0%"}}
+                      >
+                        {errors.cpf.message}
+                      </p>
+                  }
                 </FloatingLabel>
               </Col>
-            </Row>
-            <Row>
-              <Col>
+              <Col xs='4'>
                 <Button value="Verificar" type='submit' as="input" size='lg'/>
               </Col>
             </Row>
