@@ -9,9 +9,8 @@ const VerificadorCpf = () => {
   return (
     <Container>
         <Form>
-            
+          
         </Form>
-            VerificadorCpf
     </Container>
   )
 }
